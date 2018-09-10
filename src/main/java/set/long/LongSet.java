@@ -1,3 +1,5 @@
+package set.long;
+
 public interface LongSet {
 
    /**

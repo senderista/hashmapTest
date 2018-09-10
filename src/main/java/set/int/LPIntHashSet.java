@@ -1,3 +1,5 @@
+package set.int;
+
 import java.util.Arrays;
 
 
@@ -15,8 +17,8 @@ import java.util.Arrays;
  */
 public class LPIntHashSet implements IntSet {
 
-    private int[] arr;
-    private int size = 0;
+    protected int[] arr;
+    protected int size = 0;
 
     public LPIntHashSet(int maxEntries, double loadFactor) {
         assert maxEntries > 0;
@@ -105,44 +107,23 @@ public class LPIntHashSet implements IntSet {
         Arrays.fill(this.arr, 0);
     }
 
-    // https://github.com/skeeto/hash-prospector#two-round-functions
-    private static int hash(int x) {
-        assert x != 0;
-        x ^= x >>> 16;
-        x *= 0x7feb352d;
-        x ^= x >>> 15;
-        x *= 0x846ca68b;
-        x ^= x >>> 16;
-        return x;
-    }
-
-    private static int unhash(int x) {
-        assert x != 0;
-        x ^= x >>> 16;
-        x *= 0x43021123;
-        x ^= x >>> 15 ^ x >>> 30;
-        x *= 0x1d69e2a5;
-        x ^= x >>> 16;
-        return x;
-    }
-
-    private boolean isEmpty(int bucket) {
+    protected boolean isEmpty(int bucket) {
         return (this.arr[bucket] == 0);
     }
 
-    private int contents(int bucket) {
+    protected int contents(int bucket) {
         return isEmpty(bucket) ? 0 : unhash(this.arr[bucket]);
     }
 
     // https://github.com/lemire/fastrange
-    private int findPreferredBucket(int hash) {
+    protected int findPreferredBucket(int hash) {
         if (hash == 0) {
             return -1;
         }
         return (int) ((Integer.toUnsignedLong(hash) * Integer.toUnsignedLong(this.arr.length)) >>> 32);
     }
 
-    private int wrap(int pos) {
+    protected int wrap(int pos) {
         if (pos < 0) {
             return this.arr.length + pos;
         }
@@ -152,7 +133,28 @@ public class LPIntHashSet implements IntSet {
         return pos;
     }
 
-    private int lookupByHash(int hash) {
+    // https://github.com/skeeto/hash-prospector#two-round-functions
+    protected int hash(int x) {
+        assert x != 0;
+        x ^= x >>> 16;
+        x *= 0x7feb352d;
+        x ^= x >>> 15;
+        x *= 0x846ca68b;
+        x ^= x >>> 16;
+        return x;
+    }
+
+    protected int unhash(int x) {
+        assert x != 0;
+        x ^= x >>> 16;
+        x *= 0x43021123;
+        x ^= x >>> 15 ^ x >>> 30;
+        x *= 0x1d69e2a5;
+        x ^= x >>> 16;
+        return x;
+    }
+
+    protected int lookupByHash(int hash) {
         int bucket = findPreferredBucket(hash);
         int probeLength = 0;
         while (!isEmpty(bucket) && this.arr[bucket] != hash) {
@@ -166,7 +168,7 @@ public class LPIntHashSet implements IntSet {
     }
 
     // uses pseudocode from _Algorithm Design and Applications_, Section 6.3.3
-    private void shift(int startBucket) {
+    protected void shift(int startBucket) {
         int dst = startBucket;
         int shift = 1;
         int src = wrap(dst + shift);
@@ -191,16 +193,17 @@ public class LPIntHashSet implements IntSet {
         }
     }
 
-    private void dump() {
+    protected void dump() {
         for (int i = 0; i < this.arr.length; ++i) {
             System.out.format("%d\t%d\t%s\t%d\n", i, contents(i), Integer.toUnsignedString(this.arr[i]), findPreferredBucket(this.arr[i]));
         }
     }
 
-    public static void main(String[] args) {
+    protected static void test(String[] args, Class cls) {
         int numEntries = Integer.parseInt(args[0]);
         double loadFactor = Double.parseDouble(args[1]);
-        LPIntHashSet set = new LPIntHashSet(numEntries, loadFactor);
+        Constructor constructor = cls.getConstructor(int.class, double.class);
+        IntSet set = (IntSet) constructor.newInstance(numEntries, loadFactor);
         System.out.println("Array size: " + set.capacity());
         for (int i = 0; i < numEntries; ++i) {
             assert set.add(i + 1) : i + 1;
@@ -219,5 +222,9 @@ public class LPIntHashSet implements IntSet {
         for (int i = 0; i < numEntries; ++i) {
             assert !set.contains(i + 1) : i + 1;
         }
+    }
+
+    public static void main(String[] args) {
+        test(args, LPIntHashSet.class);
     }
 }

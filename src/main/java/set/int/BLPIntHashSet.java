@@ -1,3 +1,5 @@
+package set.int;
+
 import java.util.Arrays;
 
 
@@ -17,44 +19,8 @@ import java.util.Arrays;
  */
 public class BLPIntHashSet implements IntSet {
 
-    private int[] arr;
-    private int size = 0;
-
     public BLPIntHashSet(int maxEntries, double loadFactor) {
-        assert maxEntries > 0;
-        assert loadFactor > 0 && loadFactor <= 1.0;
-        int arrSize = (int) (maxEntries / loadFactor);
-        this.arr = new int[arrSize];
-    }
-
-    /**
-     * Query the size of the table's backing array.
-     *
-     * @return the size of the backing array
-     */
-    public int capacity() {
-        return this.arr.length;
-    }
-
-    /**
-     * Query the number of elements in the table.
-     *
-     * @return the number of elements in the table
-     */
-    public int size() {
-        assert this.size >= 0;
-        return this.size;
-    }
-
-    /**
-     * Query the table for a value.
-     *
-     * @param value the 32-bit integer to query the table for
-     * @return {@code true} if {@code value} is present in the table, {@code false} otherwise
-     */
-    public boolean contains(int value) {
-        int hash = hash(value);
-        return (lookupByHash(hash) != -1);
+        super(maxEntries, loadFactor);
     }
 
     /**
@@ -63,6 +29,7 @@ public class BLPIntHashSet implements IntSet {
      * @param element the 32-bit integer to add to the table
      * @return {@code false} if {@code element} was already present in the table, {@code true} otherwise
      */
+    @Override
     public boolean add(int element) {
         int hash = hash(element);
         int bucket = lookupByHash(hash);
@@ -95,6 +62,7 @@ public class BLPIntHashSet implements IntSet {
      * @param value the 32-bit integer to remove from the table
      * @return {@code false} if {@code value} was not present in the table, {@code true} otherwise
      */
+    @Override
     public boolean remove(int value) {
         int hash = hash(value);
         int bucket = lookupByHash(hash);
@@ -141,13 +109,6 @@ public class BLPIntHashSet implements IntSet {
         return true;
     }
 
-    /**
-     * Remove all elements from the table.
-     */
-    public void clear() {
-        Arrays.fill(this.arr, 0);
-    }
-
     private static boolean isHashGreater(int hash1, int hash2) {
         return (Integer.compareUnsigned(hash1, hash2) > 0);
     }
@@ -164,44 +125,8 @@ public class BLPIntHashSet implements IntSet {
         return (Integer.compareUnsigned(hash1, hash2) <= 0);
     }
 
-    // https://github.com/skeeto/hash-prospector#two-round-functions
-    private static int hash(int x) {
-        assert x != 0;
-        x ^= x >>> 16;
-        x *= 0x7feb352d;
-        x ^= x >>> 15;
-        x *= 0x846ca68b;
-        x ^= x >>> 16;
-        return x;
-    }
-
-    private static int unhash(int x) {
-        assert x != 0;
-        x ^= x >>> 16;
-        x *= 0x43021123;
-        x ^= x >>> 15 ^ x >>> 30;
-        x *= 0x1d69e2a5;
-        x ^= x >>> 16;
-        return x;
-    }
-
-    private boolean isEmpty(int bucket) {
-        return (this.arr[bucket] == 0);
-    }
-
-    private int contents(int bucket) {
-        return isEmpty(bucket) ? 0 : unhash(this.arr[bucket]);
-    }
-
-    // https://github.com/lemire/fastrange
-    private int findPreferredBucket(int hash) {
-        if (hash == 0) {
-            return -1;
-        }
-        return (int) ((Integer.toUnsignedLong(hash) * Integer.toUnsignedLong(this.arr.length)) >>> 32);
-    }
-
-    private int lookupByHash(int hash) {
+    @Override
+    protected int lookupByHash(int hash) {
         int bucket = findPreferredBucket(hash);
         if (isHashLesser(this.arr[bucket], hash)) {
             while (bucket < this.arr.length - 1 &&
@@ -369,33 +294,7 @@ public class BLPIntHashSet implements IntSet {
         return bucket;
     }
 
-    private void dump() {
-        for (int i = 0; i < this.arr.length; ++i) {
-            System.out.format("%d\t%d\t%s\t%d\n", i, contents(i), Integer.toUnsignedString(this.arr[i]), findPreferredBucket(this.arr[i]));
-        }
-    }
-
     public static void main(String[] args) {
-        int numEntries = Integer.parseInt(args[0]);
-        double loadFactor = Double.parseDouble(args[1]);
-        BLPIntHashSet set = new BLPIntHashSet(numEntries, loadFactor);
-        System.out.println("Array size: " + set.capacity());
-        for (int i = 0; i < numEntries; ++i) {
-            assert set.add(i + 1) : i + 1;
-        }
-        // set.dump();
-        System.out.println(set.size());
-        assert set.size() == numEntries;
-        for (int i = 0; i < numEntries; ++i) {
-            assert set.contains(i + 1) : i + 1;
-        }
-        for (int i = 0; i < numEntries; ++i) {
-            assert set.remove(i + 1) : i + 1;
-        }
-        System.out.println(set.size());
-        assert set.size() == 0;
-        for (int i = 0; i < numEntries; ++i) {
-            assert !set.contains(i + 1) : i + 1;
-        }
+        LPIntHashSet.test(args, BLPIntHashSet.class);
     }
 }
