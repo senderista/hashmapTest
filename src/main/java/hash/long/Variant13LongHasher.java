@@ -1,3 +1,5 @@
+package hash.long;
+
 public class Variant13LongHasher implements LongHasher {
     // Variant 13 of Murmur3 64-bit finalizer (http://zimbry.blogspot.com/2011/09/better-bit-mixing-improving-on.html)
     public long hash(long x) {

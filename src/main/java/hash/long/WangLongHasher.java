@@ -1,3 +1,5 @@
+package hash.long;
+
 public class WangLongHasher implements LongHasher {
     // https://naml.us/post/inverse-of-a-hash-function/
     public long hash(long x) {

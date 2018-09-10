@@ -1,3 +1,5 @@
+package hash.long;
+
 public class SpeckLongHasher implements LongHasher {
     // 64-bit Speck block cipher requires 128-bit key, default 25 rounds
     private final Speck64Cipher encryptor;

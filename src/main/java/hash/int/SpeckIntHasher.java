@@ -1,3 +1,5 @@
+package hash.int;
+
 public class SpeckIntHasher implements IntHasher {
     // 32-bit Speck block cipher requires 64-bit key, default 20 rounds
     private final Speck32Cipher encryptor;

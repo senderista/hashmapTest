@@ -1,3 +1,5 @@
+package hash.long;
+
 public class PhiLongHasher implements LongHasher {
     // https://raw.githubusercontent.com/vigna/fastutil/master/src/it/unimi/dsi/fastutil/HashCommon.java
     private static final long LONG_PHI = 0x9e3779b97f4a7c15l;

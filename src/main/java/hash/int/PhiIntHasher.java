@@ -1,3 +1,5 @@
+package hash.int;
+
 public class PhiIntHasher implements IntHasher {
     // https://raw.githubusercontent.com/vigna/fastutil/master/src/it/unimi/dsi/fastutil/HashCommon.java
     private static final int INT_PHI = 0x9e3779b9;

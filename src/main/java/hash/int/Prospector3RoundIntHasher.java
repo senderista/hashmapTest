@@ -1,3 +1,5 @@
+package hash.int;
+
 public class Prospector3RoundIntHasher implements IntHasher {
     // https://github.com/skeeto/hash-prospector#three-round-functions
     public static int hash(int x) {

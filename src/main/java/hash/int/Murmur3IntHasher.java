@@ -1,3 +1,5 @@
+package hash.int;
+
 public class Murmur3IntHasher implements IntHasher {
     // Murmur3 32-bit finalizer (https://github.com/aappleby/smhasher/wiki/MurmurHash3)
     public int hash(int x) {

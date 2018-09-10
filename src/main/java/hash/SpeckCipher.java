@@ -1,3 +1,5 @@
+package hash;
+
 // adapted from https://github.com/timw/bc-java/blob/feature/simon-speck/core/src/main/java/org/bouncycastle/crypto/engines/SpeckEngine.java
 
 /**

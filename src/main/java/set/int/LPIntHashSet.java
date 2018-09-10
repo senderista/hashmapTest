@@ -1,5 +1,8 @@
 package set.int;
 
+import hash.int.IntHasher;
+import hash.int.Murmur3IntHasher;
+
 import java.util.Arrays;
 
 
@@ -17,14 +20,16 @@ import java.util.Arrays;
  */
 public class LPIntHashSet implements IntSet {
 
-    protected int[] arr;
-    protected int size = 0;
+    protected final int[] arr;
+    protected final int size = 0;
+    protected final IntHasher hasher;
 
     public LPIntHashSet(int maxEntries, double loadFactor) {
         assert maxEntries > 0;
         assert loadFactor > 0 && loadFactor <= 1.0;
         int arrSize = (int) (maxEntries / loadFactor);
         this.arr = new int[arrSize];
+        this.hasher = new Murmur3IntHasher();
     }
 
     /**
@@ -133,25 +138,12 @@ public class LPIntHashSet implements IntSet {
         return pos;
     }
 
-    // https://github.com/skeeto/hash-prospector#two-round-functions
     protected int hash(int x) {
-        assert x != 0;
-        x ^= x >>> 16;
-        x *= 0x7feb352d;
-        x ^= x >>> 15;
-        x *= 0x846ca68b;
-        x ^= x >>> 16;
-        return x;
+        this.hasher.hash(x);
     }
 
     protected int unhash(int x) {
-        assert x != 0;
-        x ^= x >>> 16;
-        x *= 0x43021123;
-        x ^= x >>> 15 ^ x >>> 30;
-        x *= 0x1d69e2a5;
-        x ^= x >>> 16;
-        return x;
+        this.hasher.unhash(x);
     }
 
     protected int lookupByHash(int hash) {

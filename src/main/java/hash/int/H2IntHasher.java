@@ -1,3 +1,5 @@
+package hash.int;
+
 public class H2IntHasher implements IntHasher {
     // https://github.com/h2database/h2database
     public static int hash(int x) {

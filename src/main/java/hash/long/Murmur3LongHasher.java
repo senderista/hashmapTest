@@ -1,3 +1,5 @@
+package hash.long;
+
 public class Murmur3LongHasher implements LongHasher {
     // Murmur3 64-bit finalizer (https://github.com/aappleby/smhasher/wiki/MurmurHash3)
     public long hash(long x) {

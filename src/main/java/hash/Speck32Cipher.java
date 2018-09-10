@@ -1,3 +1,4 @@
+package hash;
 
 /**
  * Speck32: 2 byte words, 7/2 rotation constants.

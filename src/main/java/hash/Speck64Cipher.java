@@ -1,3 +1,5 @@
+package hash;
+
 /**
  * Speck64: 4 byte words, 8/3 rotation constants.
  * <p>
