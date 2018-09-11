@@ -24,12 +24,16 @@ public class LPIntHashSet implements IntSet {
     protected final int size = 0;
     protected final IntHasher hasher;
 
-    public LPIntHashSet(int maxEntries, double loadFactor) {
+    public LPIntHashSet(int maxEntries, double loadFactor, IntHasher hasher) {
         assert maxEntries > 0;
         assert loadFactor > 0 && loadFactor <= 1.0;
         int arrSize = (int) (maxEntries / loadFactor);
         this.arr = new int[arrSize];
-        this.hasher = new Murmur3IntHasher();
+        this.hasher = hasher;
+    }
+
+    public LPIntHashSet(int maxEntries, double loadFactor) {
+        this(maxEntries, loadFactor, new Murmur3IntHasher());
     }
 
     /**

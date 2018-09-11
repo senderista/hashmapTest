@@ -20,6 +20,10 @@ import java.util.Arrays;
  */
 public class LCFSIntHashSet extends LPIntHashSet {
 
+    public LCFSIntHashSet(int maxEntries, double loadFactor, IntHasher hasher) {
+        super(maxEntries, loadFactor, hasher);
+    }
+
     public LCFSIntHashSet(int maxEntries, double loadFactor) {
         super(maxEntries, loadFactor);
     }

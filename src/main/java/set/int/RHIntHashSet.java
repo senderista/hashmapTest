@@ -23,6 +23,10 @@ import java.util.Arrays;
  */
 public class RHIntHashSet extends LPIntHashSet {
 
+    public RHIntHashSet(int maxEntries, double loadFactor, IntHasher hasher) {
+        super(maxEntries, loadFactor, hasher);
+    }
+
     public RHIntHashSet(int maxEntries, double loadFactor) {
         super(maxEntries, loadFactor);
     }

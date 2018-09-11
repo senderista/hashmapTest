@@ -19,6 +19,10 @@ import java.util.Arrays;
  */
 public class BLPIntHashSet implements IntSet {
 
+    public BLPIntHashSet(int maxEntries, double loadFactor, IntHasher hasher) {
+        super(maxEntries, loadFactor, hasher);
+    }
+
     public BLPIntHashSet(int maxEntries, double loadFactor) {
         super(maxEntries, loadFactor);
     }
