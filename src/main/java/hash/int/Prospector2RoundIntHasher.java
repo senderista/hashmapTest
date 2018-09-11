@@ -2,6 +2,7 @@ package hash.int;
 
 public class Prospector2RoundIntHasher implements IntHasher {
     // https://github.com/skeeto/hash-prospector#two-round-functions
+    @Override
     public int hash(int x) {
         assert x != 0;
         x ^= x >>> 16;
@@ -12,6 +13,7 @@ public class Prospector2RoundIntHasher implements IntHasher {
         return x;
     }
 
+    @Override
     public int unhash(int x) {
         assert x != 0;
         x ^= x >>> 16;

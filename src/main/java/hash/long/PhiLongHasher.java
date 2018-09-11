@@ -5,6 +5,7 @@ public class PhiLongHasher implements LongHasher {
     private static final long LONG_PHI = 0x9e3779b97f4a7c15l;
     private static final long INV_LONG_PHI = 0xf1de83e19937733dL;
 
+    @Override
     public long hash(long x) {
         assert x != 0;
         x *= LONG_PHI;
@@ -13,6 +14,7 @@ public class PhiLongHasher implements LongHasher {
         return x;
     }
 
+    @Override
     public long unhash(long x) {
         assert x != 0;
         x ^= x >>> 32;

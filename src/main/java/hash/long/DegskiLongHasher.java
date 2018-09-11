@@ -2,6 +2,7 @@ package hash.long;
 
 public class DegskiLongHasher implements LongHasher {
     // https://gist.github.com/degski/6e2069d6035ae04d5d6f64981c995ec2
+    @Override
     public long hash(long x) {
         assert x != 0;
         x ^= x >>> 32;
@@ -12,6 +13,7 @@ public class DegskiLongHasher implements LongHasher {
         return x;
     }
 
+    @Override
     public long unhash(long x) {
         assert x != 0;
         x ^= x >>> 32;

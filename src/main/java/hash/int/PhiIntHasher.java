@@ -5,14 +5,16 @@ public class PhiIntHasher implements IntHasher {
     private static final int INT_PHI = 0x9e3779b9;
     private static final int INV_INT_PHI = 0x144cbc89;
 
-    public static int hash(int x) {
+    @Override
+    public int hash(int x) {
         assert x != 0;
         x *= INT_PHI;
         x ^= x >>> 16;
         return x;
     }
 
-    public static int unhash(int x) {
+    @Override
+    public int unhash(int x) {
         assert x != 0;
         x ^= x >>> 16;
         x *= INV_INT_PHI;

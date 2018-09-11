@@ -2,7 +2,8 @@ package hash.int;
 
 public class Prospector3RoundIntHasher implements IntHasher {
     // https://github.com/skeeto/hash-prospector#three-round-functions
-    public static int hash(int x) {
+    @Override
+    public int hash(int x) {
         assert x != 0;
         x ^= x >>> 17;
         x *= 0xed5ad4bb;
@@ -14,7 +15,8 @@ public class Prospector3RoundIntHasher implements IntHasher {
         return x;
     }
 
-    public static int unhash(int x) {
+    @Override
+    public int unhash(int x) {
         assert x != 0;
         x ^= x >>> 14 ^ x >>> 28;
         x *= 0x32b21703;

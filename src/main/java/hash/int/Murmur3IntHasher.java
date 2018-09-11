@@ -2,6 +2,7 @@ package hash.int;
 
 public class Murmur3IntHasher implements IntHasher {
     // Murmur3 32-bit finalizer (https://github.com/aappleby/smhasher/wiki/MurmurHash3)
+    @Override
     public int hash(int x) {
         x ^= x >>> 16;
         x *= 0x85ebca6b;
@@ -11,6 +12,7 @@ public class Murmur3IntHasher implements IntHasher {
         return x;
     }
 
+    @Override
     public int unhash(int x) {
         x ^= x >>> 16;
         x *= 0x7ed1b41d;

@@ -2,6 +2,7 @@ package hash.long;
 
 public class Murmur3LongHasher implements LongHasher {
     // Murmur3 64-bit finalizer (https://github.com/aappleby/smhasher/wiki/MurmurHash3)
+    @Override
     public long hash(long x) {
         assert x != 0;
         x ^= x >>> 33;
@@ -12,6 +13,7 @@ public class Murmur3LongHasher implements LongHasher {
         return x;
     }
 
+    @Override
     public long unhash(long x) {
         assert x != 0;
         x ^= x >>> 33;

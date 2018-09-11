@@ -2,6 +2,7 @@ package hash.long;
 
 public class WangLongHasher implements LongHasher {
     // https://naml.us/post/inverse-of-a-hash-function/
+    @Override
     public long hash(long x) {
       x = (~x) + (x << 21); // x = (x << 21) - x - 1;
       x = x ^ (x >>> 24);
@@ -13,6 +14,7 @@ public class WangLongHasher implements LongHasher {
       return x;
     }
 
+    @Override
     public long unhash(long x) {
       long tmp;
 

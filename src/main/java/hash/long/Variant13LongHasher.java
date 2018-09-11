@@ -2,6 +2,7 @@ package hash.long;
 
 public class Variant13LongHasher implements LongHasher {
     // Variant 13 of Murmur3 64-bit finalizer (http://zimbry.blogspot.com/2011/09/better-bit-mixing-improving-on.html)
+    @Override
     public long hash(long x) {
         assert x != 0;
         x ^= x >>> 30;
@@ -12,6 +13,7 @@ public class Variant13LongHasher implements LongHasher {
         return x;
     }
 
+    @Override
     public long unhash(long x) {
         assert x != 0;
         x ^= x >>> 31 ^ x >>> 62;
